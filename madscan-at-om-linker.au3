@@ -61,22 +61,11 @@ While 1
 
 	  ; Активируем окно AT-OM
       _WinWaitActivate("[TITLE:5m; CLASS:QWidget]", "")
-	  Local $hAtomChart = ControlGetHandle("[TITLE:5m; CLASS:QWidget]", "", "")
-	  ConsoleWrite("$hAtomChart: " & $hAtomChart & @CRLF)
-      Local $hAtomPop = ControlGetHandle("[TITLE:Form; CLASS:QTool]", "", "")
-	  ConsoleWrite("$hAtomPop: " & $hAtomPop & @CRLF)
-	  ; ControlClick("", "", "[TITLE:Form; CLASS:QTool]", "left", 2, 10, 10)
-	  ;ConsoleWrite("ControlClick @error: " & @error & @CRLF)
-	  ;~	  Отправляем тикер в поле для тикера окна TOS (посимвольно)
-      For $element In $TickerArray
-        Send($element)
-      Next
-      Send( "{ENTER}")
-	  ; Отправляем тикер в окно AT-OM (весь целиком)
-	  ;ControlSend ("", "", $hAtomChart, $Ticker & "{ENTER}", 0)
-	  ;Send("AA" + "{ENTER}")
-	  ;ConsoleWrite("ControlSend @error: " & @error & @CRLF)
-
+	  Send(StringLower($Ticker))
+	  ; Актифируем PopUp
+	  _WinWaitActivate("[TITLE:Form; CLASS:QTool]", "")
+	  Send("{ENTER}")
+	  
 	  ; Вызов функции для получения инфо компании по тикеру
 	  $Ticker = StringRegExpReplace ($Ticker, "/[A-Z]+", "", 0)
       $sSymbolInfo = GetCompanyInfo($Ticker)
